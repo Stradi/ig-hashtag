@@ -1,0 +1,1 @@
+HASHTAG_URL = "https://instagram.com/explore/tags/{tagName}?__a=1"

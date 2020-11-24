@@ -13,7 +13,7 @@ def topPosts(json):
     currentPostJson = p["node"]
 
     currentPostId = currentPostJson["id"]
-    currentPostLikes = currentPostJson["edge_liked_by"]
+    currentPostLikes = currentPostJson["edge_liked_by"]["count"]
     currentPostComments = currentPostJson["edge_media_to_comment"]["count"]
     currentPostCaption = currentPostJson["edge_media_to_caption"]["edges"][0]["node"]["text"]
 

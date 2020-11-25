@@ -1,8 +1,8 @@
 from hashtag import Hashtag
 from user import User
+import hashtagGenerator
 
-user = User("batinprefect").extractUserProfile()
-user.printAllInfo()
-
-hashtag = Hashtag("fashion").extractHashtag()
-hashtag.printAllInfo()
+# TODO: Add related hashtags to search list.
+# In search list, we will check each hashtag in Instagram.
+relatedHashtags = hashtagGenerator.getRelatedHashtags("oslo")
+print(relatedHashtags[5].hashtagName)

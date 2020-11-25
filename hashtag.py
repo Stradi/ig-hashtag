@@ -14,7 +14,6 @@ class Hashtag:
   def removeUnnecessaryJSON(self, json):
     del json["allow_following"]
     del json["is_following"]
-    del json["is_top_media_only"]
     del json["profile_pic_url"]
     del json["edge_hashtag_to_media"]["edges"]
     del json["edge_hashtag_to_media"]["page_info"]
@@ -31,6 +30,7 @@ class Hashtag:
     self.name = extract.hashtagName(jsonResponse)
     self.mediaCount = extract.mediaCount(jsonResponse)
     self.topPosts = extract.topPosts(jsonResponse)
+    self.isBanned = extract.isBanned(jsonResponse)
 
     self.calculateMinMaxOfTopPosts()
     self.calculateEngagement()
@@ -38,6 +38,13 @@ class Hashtag:
     return self
 
   def calculateMinMaxOfTopPosts(self):
+    if self.isBanned:
+      self.minLikes = 0
+      self.maxLikes = 0
+      self.minComments = 0
+      self.maxComments = 0
+      return self
+
     for post in self.topPosts:
       if post.likes < self.minLikes:
         self.minLikes = post.likes
@@ -52,5 +59,9 @@ class Hashtag:
     return self
 
   def calculateEngagement(self):
+    if self.isBanned:
+      self.engagement = 0
+      return self
+
     self.engagement = ((self.minLikes + 1) / self.mediaCount) * 10
     return self

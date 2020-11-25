@@ -21,3 +21,6 @@ def topPosts(json):
     posts.append(post)
     #print("{0} has {1} likes and {2} comments.".format(currentPostId, currentPostLikes, currentPostComments))
   return posts
+
+def isBanned(json):
+  return json["is_top_media_only"]

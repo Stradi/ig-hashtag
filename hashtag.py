@@ -25,6 +25,10 @@ class Hashtag:
   def extractHashtag(self):
     r = requests.get(constants.HASHTAG_URL.format(tagName = self.hashtagName))
     jsonResponse = r.json()
+    if not jsonResponse:
+      print("Could not fetch hashtag.")
+      return self
+
     jsonResponse = self.removeUnnecessaryJSON(jsonResponse["graphql"]["hashtag"])
 
     self.name = extract.hashtagName(jsonResponse)

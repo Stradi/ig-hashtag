@@ -42,9 +42,11 @@ class User:
   def extractUserProfile(self):
     r = requests.get(constants.PROFILE_URL.format(username = self.username))
     jsonResponse = r.json()
-    jsonResponse = self.removeUnnecessaryJSON(jsonResponse["graphql"]["user"])
-    # jsonResponse can be empty (also in Hashtag class)
+    if not jsonResponse:
+      print("Could not fetch user.")
+      return self
 
+    jsonResponse = self.removeUnnecessaryJSON(jsonResponse["graphql"]["user"])
     self.isPrivate = extract.userIsPrivate(jsonResponse)
     self.mediaCount = extract.userPostCount(jsonResponse)
     self.follower = extract.userFollowerCount(jsonResponse)

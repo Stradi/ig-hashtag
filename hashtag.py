@@ -32,8 +32,7 @@ class Hashtag:
     self.topPosts = extract.topPosts(jsonResponse)
     self.isBanned = extract.isBanned(jsonResponse)
 
-    self.calculateMinMaxOfTopPosts()
-    self.calculateEngagement()
+    self.calculateAnalytics()
 
     return self
 
@@ -65,6 +64,10 @@ class Hashtag:
 
     self.engagement = ((self.minLikes + 1) / self.mediaCount) * 10
     return self
+
+  def calculateAnalytics(self):
+    self.calculateMinMaxOfTopPosts()
+    self.calculateEngagement()
 
   def printAllInfo(self):
     banMessage = "is banned"

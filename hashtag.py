@@ -65,3 +65,15 @@ class Hashtag:
 
     self.engagement = ((self.minLikes + 1) / self.mediaCount) * 10
     return self
+
+  def printAllInfo(self):
+    banMessage = "is banned"
+    if not self.isBanned:
+      banMessage = "has {0} medias".format(str(self.mediaCount))
+
+      print("Hashtag {0} {1}.".format(self.name, banMessage))
+      print("\tMinLikes\t: {0}".format(self.minLikes))
+      print("\tMaxLikes\t: {0}".format(self.maxLikes))
+      print("\tMinComments\t: {0}".format(self.minComments))
+      print("\tMaxComments\t: {0}".format(self.maxComments))
+      print("\tEngagement\t: {:.10f}".format(self.engagement))

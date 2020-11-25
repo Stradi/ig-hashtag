@@ -28,9 +28,9 @@ class Hashtag:
     jsonResponse = self.removeUnnecessaryJSON(jsonResponse["graphql"]["hashtag"])
 
     self.name = extract.hashtagName(jsonResponse)
-    self.mediaCount = extract.mediaCount(jsonResponse)
-    self.topPosts = extract.topPosts(jsonResponse)
-    self.isBanned = extract.isBanned(jsonResponse)
+    self.mediaCount = extract.hashtagMediaCount(jsonResponse)
+    self.topPosts = extract.hashtagTopPosts(jsonResponse)
+    self.isBanned = extract.hashtagIsBanned(jsonResponse)
 
     self.calculateAnalytics()
 

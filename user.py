@@ -2,8 +2,11 @@ import requests
 import constants
 import utils.extract as extract
 
+import logging
+
 class User:
   def __init__(self, username):
+    self.loggingPrefix = "User {0} | ".format(username)
     self.username = username
 
   def removeUnnecessaryJSON(self, json):
@@ -40,10 +43,11 @@ class User:
     return json
 
   def extractUserProfile(self):
+    logging.debug(self.loggingPrefix + "Started fetching.")
     r = requests.get(constants.PROFILE_URL.format(username = self.username))
     jsonResponse = r.json()
     if not jsonResponse:
-      print("Could not fetch user.")
+      logging.error(self.loggingPrefix + "Could not fetch user information, JSON response is empty.")
       return self
 
     jsonResponse = self.removeUnnecessaryJSON(jsonResponse["graphql"]["user"])
@@ -54,12 +58,12 @@ class User:
     self.posts = extract.userPosts(jsonResponse)
 
     self.calculateAvgLikesOfPosts()
-
+    logging.debug(self.loggingPrefix + "Information successfully fetched.")
     return self
 
   def calculateAvgLikesOfPosts(self):
+    self.avg = 0
     if self.isPrivate:
-      self.avg = 0
       return self
 
     for post in self.posts:

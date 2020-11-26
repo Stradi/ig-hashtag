@@ -2,8 +2,11 @@ import requests
 import constants
 import utils.extract as extract
 
+import logging
+
 class Hashtag:
   def __init__(self, hashtagName):
+    self.loggingPrefix = "Hashtag {0} | ".format(hashtagName)
     self.hashtagName = hashtagName
 
     self.minLikes = 1E10
@@ -23,10 +26,11 @@ class Hashtag:
     return json
 
   def extractHashtag(self):
+    logging.debug(self.loggingPrefix + "Started fetching.")
     r = requests.get(constants.HASHTAG_URL.format(tagName = self.hashtagName))
     jsonResponse = r.json()
     if not jsonResponse:
-      print("Could not fetch hashtag.")
+      logging.error(self.loggingPrefix + "Could not fetch user information, JSON response is empty.")
       return self
 
     jsonResponse = self.removeUnnecessaryJSON(jsonResponse["graphql"]["hashtag"])
@@ -37,7 +41,7 @@ class Hashtag:
     self.isBanned = extract.hashtagIsBanned(jsonResponse)
 
     self.calculateAnalytics()
-
+    logging.debug(self.loggingPrefix + "Information successfully fetched.")
     return self
 
   def calculateMinMaxOfTopPosts(self):
